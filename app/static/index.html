@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Market Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="active">
+            <div class="sidebar-header">
+                <h3>StockInsight</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="active">
+                    <a href="#dashboard" class="nav-link">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#discover" class="nav-link">
+                        <i class="bi bi-search"></i> Discover
+                    </a>
+                </li>
+                <li>
+                    <a href="#watchlist" class="nav-link">
+                        <i class="bi bi-star"></i> Watchlist
+                    </a>
+                </li>
+                <li>
+                    <a href="#news" class="nav-link">
+                        <i class="bi bi-newspaper"></i> Market News
+                    </a>
+                </li>
+                <li>
+                    <a href="#settings" class="nav-link">
+                        <i class="bi bi-gear"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-dark">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <span class="navbar-brand ms-3">Stock Market Analysis</span>
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search stocks..." id="stockSearch">
+                            <button class="btn btn-primary" type="button" id="searchBtn">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container-fluid p-4">
+                <!-- Market Overview Section -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-transparent">
+                                <h5 class="card-title mb-0">Market Overview</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row" id="market-indices">
+                                    <!-- Market indices will be populated here -->
+                                    <div class="col-md-3 col-sm-6 mb-3">
+                                        <div class="market-index-skeleton"></div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 mb-3">
+                                        <div class="market-index-skeleton"></div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 mb-3">
+                                        <div class="market-index-skeleton"></div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 mb-3">
+                                        <div class="market-index-skeleton"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stock Discovery Section -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">Recommended Stocks</h5>
+                                <span class="badge bg-primary">AI-Powered</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="row" id="recommended-stocks">
+                                    <!-- Recommendations will be populated here -->
+                                    <div class="col-md-4 mb-3">
+                                        <div class="recommendation-skeleton"></div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="recommendation-skeleton"></div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="recommendation-skeleton"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending Stocks Section -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-transparent">
+                                <h5 class="card-title mb-0">Trending Stocks</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Symbol</th>
+                                                <th>Price</th>
+                                                <th>Change</th>
+                                                <th>Volume</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="trending-stocks">
+                                            <!-- Trending stocks will be populated here -->
+                                            <tr>
+                                                <td colspan="5" class="text-center">Loading trending stocks...</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stock Detail Modal -->
+    <div class="modal fade" id="stockDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Stock Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="stockTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button">Overview</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="chart-tab" data-bs-toggle="tab" data-bs-target="#chart" type="button">Chart</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="news-tab" data-bs-toggle="tab" data-bs-target="#news-content" type="button">News</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-3" id="stockTabContent">
+                        <div class="tab-pane fade show active" id="overview">
+                            <div id="stock-info" class="row"></div>
+                        </div>
+                        <div class="tab-pane fade" id="chart">
+                            <div id="stock-chart" style="height: 400px;"></div>
+                        </div>
+                        <div class="tab-pane fade" id="news-content">
+                            <div id="stock-news">Loading news...</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" id="addToWatchlist">
+                        <i class="bi bi-star"></i> Add to Watchlist
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
