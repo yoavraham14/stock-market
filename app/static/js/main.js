@@ -29,12 +29,58 @@ document.addEventListener('DOMContentLoaded', function() {
         const symbol = document.querySelector('.modal-title').textContent.split(' ')[0];
         addToWatchlist(symbol);
     });
+    
+    // Initialize navigation links
+    initializeNavigation();
 
     // Load initial data
     loadMarketIndices();
     loadTrendingStocks();
     loadRecommendations();
 });
+
+// Initialize navigation links
+function initializeNavigation() {
+    // Get all navigation links
+    const navLinks = document.querySelectorAll('#sidebar .nav-link');
+    
+    // Add click event listeners to each link
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all links
+            navLinks.forEach(l => l.parentElement.classList.remove('active'));
+            
+            // Add active class to clicked link
+            this.parentElement.classList.add('active');
+            
+            // Get the href attribute (section ID)
+            const targetSection = this.getAttribute('href').substring(1);
+            
+            // Handle different sections
+            switch(targetSection) {
+                case 'dashboard':
+                    showDashboard();
+                    break;
+                case 'discover':
+                    showDiscover();
+                    break;
+                case 'watchlist':
+                    showWatchlist();
+                    break;
+                case 'news':
+                    showNews();
+                    break;
+                case 'settings':
+                    showSettings();
+                    break;
+                default:
+                    showDashboard();
+            }
+        });
+    });
+}
 
 // Search for a stock
 function searchStock() {
@@ -45,6 +91,225 @@ function searchStock() {
         showStockDetails(symbol);
         searchInput.value = '';
     }
+}
+
+// Show Dashboard Section
+function showDashboard() {
+    // Get the content container
+    const contentContainer = document.querySelector('#content .container-fluid');
+    
+    // Show all dashboard sections
+    document.querySelectorAll('.row.mb-4').forEach(section => {
+        section.style.display = 'flex';
+    });
+}
+
+// Show Discover Section
+function showDiscover() {
+    // Get the content container
+    const contentContainer = document.querySelector('#content .container-fluid');
+    
+    // Hide all sections first
+    document.querySelectorAll('.row.mb-4').forEach(section => {
+        section.style.display = 'none';
+    });
+    
+    // Create discover content if it doesn't exist
+    let discoverSection = document.getElementById('discover-section');
+    if (!discoverSection) {
+        discoverSection = document.createElement('div');
+        discoverSection.id = 'discover-section';
+        discoverSection.className = 'row mb-4';
+        discoverSection.innerHTML = `
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-transparent">
+                        <h5 class="card-title mb-0">Discover New Stocks</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="sectorFilter">Filter by Sector</label>
+                                    <select class="form-control" id="sectorFilter">
+                                        <option value="">All Sectors</option>
+                                        <option value="Technology">Technology</option>
+                                        <option value="Healthcare">Healthcare</option>
+                                        <option value="Finance">Finance</option>
+                                        <option value="Consumer">Consumer</option>
+                                        <option value="Energy">Energy</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="marketCapFilter">Filter by Market Cap</label>
+                                    <select class="form-control" id="marketCapFilter">
+                                        <option value="">All Market Caps</option>
+                                        <option value="large">Large Cap (>$10B)</option>
+                                        <option value="mid">Mid Cap ($2B-$10B)</option>
+                                        <option value="small">Small Cap ($300M-$2B)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-primary" role="status"></div>
+                            <p class="mt-3">This feature will be available in the next update.</p>
+                            <p>The discover section will allow you to find new investment opportunities based on various filters and criteria.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        contentContainer.appendChild(discoverSection);
+    }
+    
+    // Show discover section
+    discoverSection.style.display = 'flex';
+}
+
+// Show Watchlist Section
+function showWatchlist() {
+    // Get the content container
+    const contentContainer = document.querySelector('#content .container-fluid');
+    
+    // Hide all sections first
+    document.querySelectorAll('.row.mb-4').forEach(section => {
+        section.style.display = 'none';
+    });
+    
+    // Create watchlist content if it doesn't exist
+    let watchlistSection = document.getElementById('watchlist-section');
+    if (!watchlistSection) {
+        watchlistSection = document.createElement('div');
+        watchlistSection.id = 'watchlist-section';
+        watchlistSection.className = 'row mb-4';
+        watchlistSection.innerHTML = `
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-transparent">
+                        <h5 class="card-title mb-0">Your Watchlist</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center py-5">
+                            <i class="bi bi-star fs-1 text-warning mb-3"></i>
+                            <h4>Your watchlist is empty</h4>
+                            <p class="text-muted">Add stocks to your watchlist to track them here.</p>
+                            <p>Use the "Add to Watchlist" button when viewing stock details.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        contentContainer.appendChild(watchlistSection);
+    }
+    
+    // Show watchlist section
+    watchlistSection.style.display = 'flex';
+}
+
+// Show News Section
+function showNews() {
+    // Get the content container
+    const contentContainer = document.querySelector('#content .container-fluid');
+    
+    // Hide all sections first
+    document.querySelectorAll('.row.mb-4').forEach(section => {
+        section.style.display = 'none';
+    });
+    
+    // Create news content if it doesn't exist
+    let newsSection = document.getElementById('news-section');
+    if (!newsSection) {
+        newsSection = document.createElement('div');
+        newsSection.id = 'news-section';
+        newsSection.className = 'row mb-4';
+        newsSection.innerHTML = `
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-transparent">
+                        <h5 class="card-title mb-0">Market News</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center py-5">
+                            <i class="bi bi-newspaper fs-1 text-primary mb-3"></i>
+                            <h4>Market News Coming Soon</h4>
+                            <p class="text-muted">This feature will be available in the next update.</p>
+                            <p>Stay tuned for the latest market news and analysis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        contentContainer.appendChild(newsSection);
+    }
+    
+    // Show news section
+    newsSection.style.display = 'flex';
+}
+
+// Show Settings Section
+function showSettings() {
+    // Get the content container
+    const contentContainer = document.querySelector('#content .container-fluid');
+    
+    // Hide all sections first
+    document.querySelectorAll('.row.mb-4').forEach(section => {
+        section.style.display = 'none';
+    });
+    
+    // Create settings content if it doesn't exist
+    let settingsSection = document.getElementById('settings-section');
+    if (!settingsSection) {
+        settingsSection = document.createElement('div');
+        settingsSection.id = 'settings-section';
+        settingsSection.className = 'row mb-4';
+        settingsSection.innerHTML = `
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-transparent">
+                        <h5 class="card-title mb-0">Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="mb-3">Display Settings</h6>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="darkModeToggle">
+                                    <label class="form-check-label" for="darkModeToggle">Dark Mode</label>
+                                </div>
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="compactViewToggle">
+                                    <label class="form-check-label" for="compactViewToggle">Compact View</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="mb-3">API Settings</h6>
+                                <div class="mb-3">
+                                    <label for="apiKeyInput" class="form-label">Alpha Vantage API Key</label>
+                                    <input type="password" class="form-control" id="apiKeyInput" value="********">
+                                </div>
+                                <div class="text-muted small">API key is stored securely in your .env file</div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    Settings functionality will be fully implemented in the next update.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        contentContainer.appendChild(settingsSection);
+    }
+    
+    // Show settings section
+    settingsSection.style.display = 'flex';
 }
 
 // Add to watchlist
