@@ -1,0 +1,202 @@
+[
+  {
+    "symbol": "ENSG",
+    "name": "The Ensign Group Inc.",
+    "price": 301.24,
+    "change": -4.9,
+    "change_percent": "-1.63%",
+    "volume": 3064194,
+    "market_cap": 127.48,
+    "sector": "Utilities"
+  },
+  {
+    "symbol": "MEDP",
+    "name": "Medpace Holdings Inc.",
+    "price": 491.66,
+    "change": -13.83,
+    "change_percent": "-2.81%",
+    "volume": 7695048,
+    "market_cap": 482.43,
+    "sector": "Consumer Discretionary"
+  },
+  {
+    "symbol": "TTEK",
+    "name": "Tetra Tech Inc.",
+    "price": 184.65,
+    "change": 15.68,
+    "change_percent": "8.49%",
+    "volume": 9400114,
+    "market_cap": 85.03,
+    "sector": "Utilities"
+  },
+  {
+    "symbol": "PODD",
+    "name": "Insulet Corporation",
+    "price": 122.35,
+    "change": 9.48,
+    "change_percent": "7.75%",
+    "volume": 5108425,
+    "market_cap": 72.77,
+    "sector": "Consumer Staples"
+  },
+  {
+    "symbol": "EXEL",
+    "name": "Exelixis Inc.",
+    "price": 350.68,
+    "change": 8.03,
+    "change_percent": "2.29%",
+    "volume": 3712497,
+    "market_cap": 64.62,
+    "sector": "Consumer Discretionary"
+  },
+  {
+    "symbol": "SAIA",
+    "name": "Saia Inc.",
+    "price": 235.72,
+    "change": 2.58,
+    "change_percent": "1.09%",
+    "volume": 2984806,
+    "market_cap": 37.89,
+    "sector": "Financials"
+  },
+  {
+    "symbol": "LSTR",
+    "name": "Landstar System Inc.",
+    "price": 282.54,
+    "change": 17.44,
+    "change_percent": "6.17%",
+    "volume": 2128810,
+    "market_cap": 254.98,
+    "sector": "Utilities"
+  },
+  {
+    "symbol": "AXON",
+    "name": "Axon Enterprise Inc.",
+    "price": 317.05,
+    "change": 13.08,
+    "change_percent": "4.13%",
+    "volume": 2509869,
+    "market_cap": 45.5,
+    "sector": "Financials"
+  },
+  {
+    "symbol": "BLDR",
+    "name": "Builders FirstSource Inc.",
+    "price": 368.72,
+    "change": 2.6,
+    "change_percent": "0.71%",
+    "volume": 5417310,
+    "market_cap": 352.7,
+    "sector": "Healthcare"
+  },
+  {
+    "symbol": "CGNX",
+    "name": "Cognex Corporation",
+    "price": 312.09,
+    "change": 12.47,
+    "change_percent": "4.0%",
+    "volume": 7629882,
+    "market_cap": 260.9,
+    "sector": "Consumer Staples"
+  },
+  {
+    "symbol": "PNFP",
+    "name": "Pinnacle Financial Partners",
+    "price": 281.43,
+    "change": -4.36,
+    "change_percent": "-1.55%",
+    "volume": 9129995,
+    "market_cap": 59.33,
+    "sector": "Technology"
+  },
+  {
+    "symbol": "HALO",
+    "name": "Halozyme Therapeutics Inc.",
+    "price": 166.66,
+    "change": 5.0,
+    "change_percent": "3.0%",
+    "volume": 851314,
+    "market_cap": 98.14,
+    "sector": "Financials"
+  },
+  {
+    "symbol": "KNSL",
+    "name": "Kinsale Capital Group Inc.",
+    "price": 361.69,
+    "change": -0.38,
+    "change_percent": "-0.11%",
+    "volume": 9998371,
+    "market_cap": 91.5,
+    "sector": "Financials"
+  },
+  {
+    "symbol": "EWBC",
+    "name": "East West Bancorp Inc.",
+    "price": 267.97,
+    "change": -9.81,
+    "change_percent": "-3.66%",
+    "volume": 5049222,
+    "market_cap": 155.28,
+    "sector": "Utilities"
+  },
+  {
+    "symbol": "PCTY",
+    "name": "Paylocity Holding Corp.",
+    "price": 91.3,
+    "change": 4.05,
+    "change_percent": "4.44%",
+    "volume": 3162737,
+    "market_cap": 6.67,
+    "sector": "Real Estate"
+  },
+  {
+    "symbol": "SYNH",
+    "name": "Syneos Health Inc.",
+    "price": 335.41,
+    "change": 8.51,
+    "change_percent": "2.54%",
+    "volume": 7995052,
+    "market_cap": 49.88,
+    "sector": "Consumer Staples"
+  },
+  {
+    "symbol": "NATI",
+    "name": "National Instruments Corp.",
+    "price": 144.03,
+    "change": 6.5,
+    "change_percent": "4.51%",
+    "volume": 2898663,
+    "market_cap": 60.93,
+    "sector": "Consumer Discretionary"
+  },
+  {
+    "symbol": "AZPN",
+    "name": "Aspen Technology Inc.",
+    "price": 101.95,
+    "change": -0.74,
+    "change_percent": "-0.73%",
+    "volume": 6496904,
+    "market_cap": 67.41,
+    "sector": "Utilities"
+  },
+  {
+    "symbol": "QLYS",
+    "name": "Qualys Inc.",
+    "price": 230.91,
+    "change": -16.04,
+    "change_percent": "-6.95%",
+    "volume": 5328037,
+    "market_cap": 33.05,
+    "sector": "Healthcare"
+  },
+  {
+    "symbol": "FOXF",
+    "name": "Fox Factory Holding Corp.",
+    "price": 215.75,
+    "change": -4.55,
+    "change_percent": "-2.11%",
+    "volume": 9028183,
+    "market_cap": 153.94,
+    "sector": "Financials"
+  }
+]

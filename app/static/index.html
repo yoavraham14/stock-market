@@ -69,26 +69,47 @@
                 <!-- Market Overview Section -->
                 <div class="row mb-4">
                     <div class="col-12">
-                        <div class="card shadow-sm">
-                            <div class="card-header bg-transparent">
-                                <h5 class="card-title mb-0">Market Overview</h5>
+                        <div class="card shadow-sm border-0 overflow-hidden">
+                            <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title mb-0 d-flex align-items-center">
+                                        <i class="bi bi-graph-up-arrow me-2 text-primary"></i>
+                                        Market Overview
+                                    </h5>
+                                    <small class="text-muted">Major indices performance</small>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="marketViewOptions" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-sliders me-1"></i> View
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="marketViewOptions">
+                                        <li><a class="dropdown-item active" href="#">US Markets</a></li>
+                                        <li><a class="dropdown-item" href="#">Global Markets</a></li>
+                                        <li><a class="dropdown-item" href="#">Crypto</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="#">Refresh Data</a></li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body pb-0 pt-3">
                                 <div class="row" id="market-indices">
                                     <!-- Market indices will be populated here -->
-                                    <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-4">
                                         <div class="market-index-skeleton"></div>
                                     </div>
-                                    <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-4">
                                         <div class="market-index-skeleton"></div>
                                     </div>
-                                    <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-4">
                                         <div class="market-index-skeleton"></div>
                                     </div>
-                                    <div class="col-md-3 col-sm-6 mb-3">
+                                    <div class="col-md-3 col-sm-6 mb-4">
                                         <div class="market-index-skeleton"></div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="card-footer bg-transparent text-end">
+                                <small class="text-muted">Data provided by Alpha Vantage</small>
                             </div>
                         </div>
                     </div>

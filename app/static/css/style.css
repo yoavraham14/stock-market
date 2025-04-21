@@ -82,27 +82,115 @@ body {
     padding: 1rem 1.25rem;
 }
 
-/* Market indices */
+/* Market index cards */
 .market-index {
-    padding: 1.25rem;
-    border-radius: 10px;
+    padding: 1.5rem;
+    border-radius: 16px;
     margin-bottom: 1rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    transition: transform 0.2s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 1px solid rgba(0,0,0,0.05);
+    cursor: pointer;
 }
 
 .market-index:hover {
     transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.market-index:active {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.market-index::after {
+    content: 'Click to view stocks';
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.7rem;
+    color: #6c757d;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.market-index:hover::after {
+    opacity: 1;
 }
 
 .market-index.up {
-    background-color: #d4edda;
-    border-left: 4px solid #28a745;
+    background: linear-gradient(135deg, #f0fff4 0%, #d4edda 100%);
+    border-color: rgba(40, 167, 69, 0.2);
 }
 
 .market-index.down {
-    background-color: #f8d7da;
-    border-left: 4px solid #dc3545;
+    background: linear-gradient(135deg, #fff5f5 0%, #f8d7da 100%);
+    border-color: rgba(220, 53, 69, 0.2);
+}
+
+.market-index::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: #6c757d;
+    opacity: 0.7;
+}
+
+.market-index.up::before {
+    background-color: #28a745;
+}
+
+.market-index.down::before {
+    background-color: #dc3545;
+}
+
+.market-index .price {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+    letter-spacing: -0.5px;
+}
+
+.market-index .change {
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.market-index .change.up {
+    background-color: rgba(40, 167, 69, 0.15);
+    color: #28a745;
+}
+
+.market-index .change.down {
+    background-color: rgba(220, 53, 69, 0.15);
+    color: #dc3545;
+}
+
+.market-index .index-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    opacity: 0.2;
+}
+
+.market-index.up .index-icon {
+    color: #28a745;
+}
+
+.market-index.down .index-icon {
+    color: #dc3545;
 }
 
 /* Stock price changes */
@@ -178,11 +266,36 @@ body {
 
 /* Skeleton loaders */
 .market-index-skeleton {
-    height: 100px;
+    height: 160px;
     background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
-    border-radius: 10px;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    padding: 1.5rem;
+}
+
+.market-index-skeleton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: #e0e0e0;
+}
+
+.market-index-skeleton::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 60%;
+    height: 20px;
+    background-color: #e8e8e8;
+    border-radius: 4px;
 }
 
 .recommendation-skeleton {

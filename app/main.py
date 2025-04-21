@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 import os
 from pathlib import Path
-from .api import stocks
+from .api import stocks, market_indices, api_status, index_stocks
 from .database import engine, Base
 
 # Create database tables
@@ -30,6 +30,9 @@ app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
 # Include routers
 app.include_router(stocks.router, prefix="/api/stocks", tags=["stocks"])
+app.include_router(market_indices.router, prefix="/api/markets", tags=["markets"])
+app.include_router(api_status.router, prefix="/api/status", tags=["status"])
+app.include_router(index_stocks.router, prefix="/api/indices", tags=["indices"])
 
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):

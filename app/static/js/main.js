@@ -1,5 +1,214 @@
 // Main JavaScript file for Stock Market Analysis Platform
 
+// Function to show stocks in a market index
+async function showIndexStocks(symbol, indexName) {
+    console.log('showIndexStocks called with:', symbol, indexName);
+    // Create modal for displaying index stocks
+    const modalId = 'indexStocksModal';
+    let modal = document.getElementById(modalId);
+    
+    // If modal doesn't exist, create it
+    if (!modal) {
+        console.log('Creating new modal');
+        const modalHTML = `
+        <div class="modal fade" id="${modalId}" tabindex="-1" aria-labelledby="${modalId}Label" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="${modalId}Label">Stocks in <span id="indexNameSpan"></span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="input-group" style="max-width: 300px;">
+                                <input type="text" class="form-control" id="stockSearchInput" placeholder="Search stocks...">
+                                <button class="btn btn-outline-secondary" type="button">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                            <div class="d-flex">
+                                <div class="me-2">
+                                    <select class="form-select" id="sortBySelect">
+                                        <option value="market_cap">Market Cap</option>
+                                        <option value="price">Price</option>
+                                        <option value="change">Change ($)</option>
+                                        <option value="change_percent">Change (%)</option>
+                                        <option value="volume">Volume</option>
+                                        <option value="symbol">Symbol</option>
+                                        <option value="name">Name</option>
+                                        <option value="sector">Sector</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <select class="form-select" id="sortOrderSelect">
+                                        <option value="desc">Descending</option>
+                                        <option value="asc">Ascending</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Symbol</th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Change</th>
+                                        <th>Change %</th>
+                                        <th>Volume</th>
+                                        <th>Market Cap (B)</th>
+                                        <th>Sector</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="indexStocksTableBody">
+                                    <!-- Stocks will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+        
+        // Add modal to the document
+        const modalContainer = document.createElement('div');
+        modalContainer.innerHTML = modalHTML;
+        document.body.appendChild(modalContainer.firstElementChild);
+        
+        modal = document.getElementById(modalId);
+    } else {
+        console.log('Using existing modal');
+    }
+    
+    // Set the index name in the modal
+    document.getElementById('indexNameSpan').textContent = indexName;
+    
+    try {
+        // Load the stocks
+        await loadIndexStocks(symbol);
+        
+        // Show the modal - use a direct approach to ensure it works
+        if (typeof bootstrap !== 'undefined') {
+            console.log('Using bootstrap modal');
+            const bsModal = new bootstrap.Modal(modal);
+            bsModal.show();
+        } else {
+            console.log('Bootstrap not available, using jQuery');
+            // Fallback to jQuery if available
+            if (typeof $ !== 'undefined') {
+                $(modal).modal('show');
+            } else {
+                console.error('Neither bootstrap nor jQuery is available');
+                // Manual fallback
+                modal.style.display = 'block';
+                modal.classList.add('show');
+                document.body.classList.add('modal-open');
+                
+                // Create backdrop
+                const backdrop = document.createElement('div');
+                backdrop.className = 'modal-backdrop fade show';
+                document.body.appendChild(backdrop);
+            }
+        }
+    } catch (error) {
+        console.error('Error showing index stocks:', error);
+    }
+}
+
+// Function to load stocks in an index
+async function loadIndexStocks(symbol, sortBy = 'market_cap', sortOrder = 'desc') {
+    const tableBody = document.getElementById('indexStocksTableBody');
+    tableBody.innerHTML = '<tr><td colspan="8" class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td></tr>';
+    
+    try {
+        const response = await fetch(`/api/indices/${symbol}/stocks?sort_by=${sortBy}&sort_order=${sortOrder}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const stocks = await response.json();
+        tableBody.innerHTML = '';
+        
+        stocks.forEach(stock => {
+            const row = document.createElement('tr');
+            const direction = stock.change >= 0 ? 'positive' : 'negative';
+            const icon = direction === 'positive' ? 'bi-arrow-up-right' : 'bi-arrow-down-right';
+            
+            row.innerHTML = `
+                <td><strong>${stock.symbol}</strong></td>
+                <td>${stock.name}</td>
+                <td>$${stock.price.toFixed(2)}</td>
+                <td class="${direction}">$${stock.change.toFixed(2)}</td>
+                <td class="${direction}">
+                    <i class="bi ${icon} me-1"></i>
+                    ${stock.change_percent}
+                </td>
+                <td>${stock.volume.toLocaleString()}</td>
+                <td>$${stock.market_cap.toFixed(2)}B</td>
+                <td><span class="badge bg-light text-dark">${stock.sector}</span></td>
+            `;
+            
+            tableBody.appendChild(row);
+        });
+        
+        // Store the original data for filtering
+        tableBody.dataset.originalContent = tableBody.innerHTML;
+        
+        // Add event listeners for sorting and filtering
+        document.getElementById('sortBySelect').addEventListener('change', function() {
+            loadIndexStocks(symbol, this.value, document.getElementById('sortOrderSelect').value);
+        });
+        
+        document.getElementById('sortOrderSelect').addEventListener('change', function() {
+            loadIndexStocks(symbol, document.getElementById('sortBySelect').value, this.value);
+        });
+        
+        document.getElementById('stockSearchInput').addEventListener('input', function() {
+            filterStocks(this.value);
+        });
+        
+    } catch (error) {
+        console.error('Error loading index stocks:', error);
+        tableBody.innerHTML = `<tr><td colspan="8" class="text-center text-danger">Error loading stocks. Please try again later.</td></tr>`;
+    }
+}
+
+// Function to filter stocks based on search input
+function filterStocks(searchTerm) {
+    const tableBody = document.getElementById('indexStocksTableBody');
+    const originalContent = tableBody.dataset.originalContent;
+    
+    if (!searchTerm.trim()) {
+        // If search term is empty, restore original content
+        tableBody.innerHTML = originalContent;
+        return;
+    }
+    
+    // Create a temporary element to parse the original content
+    const tempElement = document.createElement('div');
+    tempElement.innerHTML = originalContent;
+    const rows = tempElement.querySelectorAll('tr');
+    
+    // Filter rows based on search term
+    const filteredRows = Array.from(rows).filter(row => {
+        const text = row.textContent.toLowerCase();
+        return text.includes(searchTerm.toLowerCase());
+    });
+    
+    // Update table with filtered rows
+    tableBody.innerHTML = '';
+    if (filteredRows.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="8" class="text-center">No matching stocks found</td></tr>`;
+    } else {
+        filteredRows.forEach(row => tableBody.appendChild(row.cloneNode(true)));
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize sidebar toggle
     document.getElementById('sidebarCollapse').addEventListener('click', function() {
@@ -29,14 +238,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const symbol = document.querySelector('.modal-title').textContent.split(' ')[0];
         addToWatchlist(symbol);
     });
-    
+
     // Initialize navigation links
     initializeNavigation();
 
     // Load initial data
     loadMarketIndices();
     loadTrendingStocks();
-    loadRecommendations();
+    loadStockRecommendations();
 });
 
 // Initialize navigation links
@@ -321,54 +530,103 @@ function addToWatchlist(symbol) {
 
 // Load market indices
 async function loadMarketIndices() {
-    const indices = [
-        { symbol: '^GSPC', name: 'S&P 500' },
-        { symbol: '^DJI', name: 'Dow Jones' },
-        { symbol: '^IXIC', name: 'NASDAQ' },
-        { symbol: '^RUT', name: 'Russell 2000' }
-    ];
-
     const container = document.getElementById('market-indices');
     // Clear loading skeletons
     container.innerHTML = '';
     
-    for (const index of indices) {
-        try {
-            const response = await fetch(`/api/stocks/quote/${index.symbol}`);
-            const data = await response.json();
-            
-            const change = parseFloat(data['10. change percent']);
-            const direction = change >= 0 ? 'up' : 'down';
-            const icon = direction === 'up' ? 'bi-arrow-up-circle-fill' : 'bi-arrow-down-circle-fill';
+    try {
+        const response = await fetch('/api/markets/indices');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        
+        const marketIndicesContainer = document.getElementById('market-indices');
+        marketIndicesContainer.innerHTML = '';
+        
+        data.forEach(data => {
+            const direction = data.change > 0 ? 'positive' : 'negative';
+            const icon = direction === 'positive' ? 'bi-arrow-up-circle-fill' : 'bi-arrow-down-circle-fill';
             
             const card = document.createElement('div');
             card.className = 'col-md-3 col-sm-6 mb-3';
             card.innerHTML = `
-                <div class="market-index ${direction}">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h5 class="mb-0">${index.name}</h5>
-                        <i class="bi ${icon} fs-5"></i>
+                <div class="market-index ${direction}" data-symbol="${data.symbol}" data-name="${data.name}">
+                    <i class="bi ${icon} index-icon"></i>
+                    <div class="d-flex flex-column">
+                        <h5 class="mb-1 fw-bold">${data.name}</h5>
+                        <small class="text-muted mb-2">Last updated: ${new Date().toLocaleTimeString()}</small>
                     </div>
-                    <div class="price fs-4 fw-bold">$${parseFloat(data['05. price']).toFixed(2)}</div>
-                    <div class="change ${direction} d-flex align-items-center mt-2">
-                        <i class="bi ${icon === 'bi-arrow-up-circle-fill' ? 'bi-graph-up-arrow' : 'bi-graph-down-arrow'} me-1"></i>
-                        ${change >= 0 ? '+' : ''}${change.toFixed(2)}%
+                    <div class="price">$${data.price}</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="change ${direction}">
+                            <i class="bi ${icon === 'bi-arrow-up-circle-fill' ? 'bi-graph-up-arrow' : 'bi-graph-down-arrow'} me-1"></i>
+                            ${data.change_percent}
+                        </div>
+                        <div class="text-muted small">Today</div>
                     </div>
                 </div>
             `;
             
-            container.appendChild(card);
-        } catch (error) {
-            console.error(`Error loading ${index.name}:`, error);
-            // Show error state
+            // Add click event to show stocks in this index
+            card.querySelector('.market-index').addEventListener('click', function(e) {
+                console.log('Market index clicked');
+                const symbol = this.getAttribute('data-symbol');
+                const name = this.getAttribute('data-name');
+                console.log('Opening index:', symbol, name);
+                showIndexStocks(symbol, name);
+                e.preventDefault();
+                e.stopPropagation();
+            });
+            
+            marketIndicesContainer.appendChild(card);
+        });
+    } catch (error) {
+        console.error('Error loading market indices:', error);
+        
+        // Fallback data in case the API fails
+        const fallbackIndices = [
+            { symbol: '^GSPC', name: 'S&P 500', price: '4,514.02', change: '+1.53%', direction: 'up' },
+            { symbol: '^DJI', name: 'Dow Jones', price: '35,390.15', change: '+1.12%', direction: 'up' },
+            { symbol: '^IXIC', name: 'NASDAQ', price: '14,176.32', change: '+1.54%', direction: 'up' },
+            { symbol: '^RUT', name: 'Russell 2000', price: '1,792.55', change: '+1.36%', direction: 'up' }
+        ];
+        
+        // Create cards with fallback data
+        for (const index of fallbackIndices) {
+            const icon = index.direction === 'up' ? 'bi-arrow-up-circle-fill' : 'bi-arrow-down-circle-fill';
+            
             const card = document.createElement('div');
             card.className = 'col-md-3 col-sm-6 mb-3';
             card.innerHTML = `
-                <div class="market-index">
-                    <h5>${index.name}</h5>
-                    <div class="text-muted">Unable to load data</div>
+                <div class="market-index ${index.direction}" data-symbol="${index.symbol}" data-name="${index.name}">
+                    <i class="bi ${icon} index-icon"></i>
+                    <div class="d-flex flex-column">
+                        <h5 class="mb-1 fw-bold">${index.name}</h5>
+                        <small class="text-muted mb-2">Last updated: ${new Date().toLocaleTimeString()}</small>
+                    </div>
+                    <div class="price">$${index.price}</div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="change ${index.direction}">
+                            <i class="bi ${icon === 'bi-arrow-up-circle-fill' ? 'bi-graph-up-arrow' : 'bi-graph-down-arrow'} me-1"></i>
+                            ${index.change}
+                        </div>
+                        <div class="text-muted small">Today</div>
+                    </div>
                 </div>
             `;
+            
+            // Add click event to show stocks in this index
+            card.querySelector('.market-index').addEventListener('click', function(e) {
+                console.log('Market index clicked');
+                const symbol = this.getAttribute('data-symbol');
+                const name = this.getAttribute('data-name');
+                console.log('Opening index:', symbol, name);
+                showIndexStocks(symbol, name);
+                e.preventDefault();
+                e.stopPropagation();
+            });
+            
             container.appendChild(card);
         }
     }
@@ -497,8 +755,30 @@ async function showStockDetails(symbol) {
         
         // Update stock info
         const infoContainer = document.getElementById('stock-info');
-        const change = parseFloat(data['10. change percent']);
-        const changeClass = change >= 0 ? 'price-up' : 'price-down';
+        
+        // Safely parse numeric values with fallbacks
+        const safeParseFloat = (value) => {
+            if (!value || value === 'NaN' || value === 'null' || value === 'undefined') return 0;
+            const parsed = parseFloat(value.toString().replace('%', ''));
+            return isNaN(parsed) ? 0 : parsed;
+        };
+        
+        const safeParseInt = (value) => {
+            if (!value || value === 'NaN' || value === 'null' || value === 'undefined') return 0;
+            const parsed = parseInt(value);
+            return isNaN(parsed) ? 0 : parsed;
+        };
+        
+        // Get price and change values with fallbacks
+        const price = safeParseFloat(data['05. price']);
+        const changePercent = safeParseFloat(data['10. change percent']);
+        const open = safeParseFloat(data['02. open']);
+        const prevClose = safeParseFloat(data['08. previous close']);
+        const volume = safeParseInt(data['06. volume']);
+        const tradingDay = data['07. latest trading day'] || 'Not available';
+        
+        // Determine change direction
+        const changeClass = changePercent >= 0 ? 'price-up' : 'price-down';
         
         infoContainer.innerHTML = `
             <div class="col-md-6">
@@ -506,20 +786,20 @@ async function showStockDetails(symbol) {
                     <div class="card-body">
                         <h5 class="card-title">Price Information</h5>
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="fs-4 fw-bold">$${parseFloat(data['05. price']).toFixed(2)}</span>
+                            <span class="fs-4 fw-bold">$${price.toFixed(2)}</span>
                             <span class="${changeClass} fs-5">
-                                <i class="bi ${change >= 0 ? 'bi-arrow-up-right' : 'bi-arrow-down-right'}"></i>
-                                ${change >= 0 ? '+' : ''}${change.toFixed(2)}%
+                                <i class="bi ${changePercent >= 0 ? 'bi-arrow-up-right' : 'bi-arrow-down-right'}"></i>
+                                ${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%
                             </span>
                         </div>
                         <div class="row">
                             <div class="col-6">
                                 <div class="text-muted">Open</div>
-                                <div>$${parseFloat(data['02. open']).toFixed(2)}</div>
+                                <div>$${open.toFixed(2)}</div>
                             </div>
                             <div class="col-6">
                                 <div class="text-muted">Previous Close</div>
-                                <div>$${parseFloat(data['08. previous close']).toFixed(2)}</div>
+                                <div>$${prevClose.toFixed(2)}</div>
                             </div>
                         </div>
                     </div>
@@ -531,11 +811,11 @@ async function showStockDetails(symbol) {
                         <h5 class="card-title">Trading Information</h5>
                         <div class="mb-3">
                             <div class="text-muted">Volume</div>
-                            <div class="fs-5">${parseInt(data['06. volume']).toLocaleString()}</div>
+                            <div class="fs-5">${volume.toLocaleString()}</div>
                         </div>
                         <div class="mb-3">
                             <div class="text-muted">Latest Trading Day</div>
-                            <div>${data['07. latest trading day']}</div>
+                            <div>${tradingDay}</div>
                         </div>
                     </div>
                 </div>

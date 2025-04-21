@@ -1,0 +1,202 @@
+[
+  {
+    "symbol": "AAPL",
+    "name": "Apple Inc.",
+    "price": 183.37,
+    "change": 7.94,
+    "change_percent": "4.33%",
+    "volume": 2037700,
+    "market_cap": 80.24,
+    "sector": "Consumer Discretionary"
+  },
+  {
+    "symbol": "MSFT",
+    "name": "Microsoft Corporation",
+    "price": 101.51,
+    "change": -7.75,
+    "change_percent": "-7.63%",
+    "volume": 8055673,
+    "market_cap": 22.67,
+    "sector": "Healthcare"
+  },
+  {
+    "symbol": "AMZN",
+    "name": "Amazon.com Inc.",
+    "price": 106.6,
+    "change": 18.58,
+    "change_percent": "17.43%",
+    "volume": 4478504,
+    "market_cap": 91.1,
+    "sector": "Industrials"
+  },
+  {
+    "symbol": "NVDA",
+    "name": "NVIDIA Corporation",
+    "price": 471.77,
+    "change": 7.78,
+    "change_percent": "1.65%",
+    "volume": 7933158,
+    "market_cap": 321.06,
+    "sector": "Energy"
+  },
+  {
+    "symbol": "GOOGL",
+    "name": "Alphabet Inc.",
+    "price": 474.41,
+    "change": -17.2,
+    "change_percent": "-3.63%",
+    "volume": 5005026,
+    "market_cap": 83.05,
+    "sector": "Industrials"
+  },
+  {
+    "symbol": "META",
+    "name": "Meta Platforms Inc.",
+    "price": 449.89,
+    "change": -17.92,
+    "change_percent": "-3.98%",
+    "volume": 1117999,
+    "market_cap": 263.08,
+    "sector": "Technology"
+  },
+  {
+    "symbol": "TSLA",
+    "name": "Tesla, Inc.",
+    "price": 151.56,
+    "change": 18.93,
+    "change_percent": "12.49%",
+    "volume": 700993,
+    "market_cap": 120.6,
+    "sector": "Industrials"
+  },
+  {
+    "symbol": "BRK.B",
+    "name": "Berkshire Hathaway Inc.",
+    "price": 437.14,
+    "change": 9.98,
+    "change_percent": "2.28%",
+    "volume": 4738329,
+    "market_cap": 341.93,
+    "sector": "Consumer Discretionary"
+  },
+  {
+    "symbol": "UNH",
+    "name": "UnitedHealth Group Inc.",
+    "price": 36.88,
+    "change": -6.69,
+    "change_percent": "-18.14%",
+    "volume": 1881545,
+    "market_cap": 2.69,
+    "sector": "Consumer Staples"
+  },
+  {
+    "symbol": "JNJ",
+    "name": "Johnson & Johnson",
+    "price": 112.51,
+    "change": -2.79,
+    "change_percent": "-2.48%",
+    "volume": 1975421,
+    "market_cap": 97.33,
+    "sector": "Industrials"
+  },
+  {
+    "symbol": "JPM",
+    "name": "JPMorgan Chase & Co.",
+    "price": 336.52,
+    "change": -17.65,
+    "change_percent": "-5.24%",
+    "volume": 6519033,
+    "market_cap": 253.43,
+    "sector": "Consumer Staples"
+  },
+  {
+    "symbol": "V",
+    "name": "Visa Inc.",
+    "price": 147.96,
+    "change": -7.38,
+    "change_percent": "-4.99%",
+    "volume": 6594338,
+    "market_cap": 83.71,
+    "sector": "Energy"
+  },
+  {
+    "symbol": "PG",
+    "name": "Procter & Gamble Co.",
+    "price": 481.81,
+    "change": 7.7,
+    "change_percent": "1.6%",
+    "volume": 200664,
+    "market_cap": 170.06,
+    "sector": "Healthcare"
+  },
+  {
+    "symbol": "MA",
+    "name": "Mastercard Inc.",
+    "price": 473.96,
+    "change": 16.3,
+    "change_percent": "3.44%",
+    "volume": 8201487,
+    "market_cap": 25.45,
+    "sector": "Industrials"
+  },
+  {
+    "symbol": "HD",
+    "name": "Home Depot Inc.",
+    "price": 329.3,
+    "change": -9.87,
+    "change_percent": "-3.0%",
+    "volume": 4686199,
+    "market_cap": 169.72,
+    "sector": "Energy"
+  },
+  {
+    "symbol": "CVX",
+    "name": "Chevron Corporation",
+    "price": 246.92,
+    "change": 10.25,
+    "change_percent": "4.15%",
+    "volume": 5969638,
+    "market_cap": 197.58,
+    "sector": "Technology"
+  },
+  {
+    "symbol": "MRK",
+    "name": "Merck & Co. Inc.",
+    "price": 429.18,
+    "change": 3.92,
+    "change_percent": "0.91%",
+    "volume": 1303504,
+    "market_cap": 112.99,
+    "sector": "Utilities"
+  },
+  {
+    "symbol": "ABBV",
+    "name": "AbbVie Inc.",
+    "price": 394.6,
+    "change": -9.46,
+    "change_percent": "-2.4%",
+    "volume": 1501373,
+    "market_cap": 351.05,
+    "sector": "Materials"
+  },
+  {
+    "symbol": "PEP",
+    "name": "PepsiCo Inc.",
+    "price": 101.05,
+    "change": 4.94,
+    "change_percent": "4.89%",
+    "volume": 279762,
+    "market_cap": 77.68,
+    "sector": "Real Estate"
+  },
+  {
+    "symbol": "KO",
+    "name": "Coca-Cola Company",
+    "price": 21.56,
+    "change": -19.61,
+    "change_percent": "-90.96%",
+    "volume": 7395432,
+    "market_cap": 20.35,
+    "sector": "Communication Services"
+  }
+]
